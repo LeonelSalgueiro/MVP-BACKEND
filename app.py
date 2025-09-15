@@ -56,3 +56,21 @@ def listar_lembretes():
         {"id": r["id"], "titulo": r["titulo"], "data": r["data"], "descricao": r["descricao"]}
         for r in rows
     ])
+
+@app.route('/lembretes/<int:id>', methods=['PUT'])
+def editar_anotacao(id):
+    conn = get_db_connection()
+    anotacao = conn.execute('SELECT * FROM lembretes WHERE id = ?', (id,)).fetchone()
+    if anotacao is None:
+        conn.close()
+        return jsonify({"error": "Anotação não encontrada"}), 404
+    titulo = request.form.get('titulo', anotacao['titulo'])
+    data = request.form.get('data', anotacao['data'])
+    descricao = request.form.get('descricao', anotacao['descricao'])
+    conn.execute(
+        'UPDATE lembretes SET titulo = ?, data = ?, descricao = ? WHERE id = ?',
+        (titulo, data, descricao, id)
+    )
+    conn.commit()
+    conn.close()
+    return jsonify({"id": id, "titulo": titulo, "data": data, "descricao": descricao})

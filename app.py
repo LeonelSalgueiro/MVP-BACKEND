@@ -47,6 +47,8 @@ def criar_anotacao():
     conn.close()
     return jsonify({"id": anotacao_id, "titulo": titulo, "data": data, "descricao": descricao}), 201
 
+
+
 @app.route('/lembretes', methods=['GET'])
 def listar_lembretes():
     conn = get_db_connection()
@@ -56,6 +58,8 @@ def listar_lembretes():
         {"id": r["id"], "titulo": r["titulo"], "data": r["data"], "descricao": r["descricao"]}
         for r in rows
     ])
+
+
 
 @app.route('/lembretes/<int:id>', methods=['PUT'])
 def editar_anotacao(id):
@@ -75,6 +79,8 @@ def editar_anotacao(id):
     conn.close()
     return jsonify({"id": id, "titulo": titulo, "data": data, "descricao": descricao})
 
+
+
 @app.route('/lembretes/<int:id>', methods=['DELETE'])
 def excluir_anotacao(id):
     conn = get_db_connection()
@@ -85,3 +91,24 @@ def excluir_anotacao(id):
         return jsonify({"error": "Anotação não encontrada"}), 404
     conn.close()
     return jsonify({"result": "Anotação excluída"})
+
+
+
+@app.route('/lembretes/<int:id>', methods=['GET'])
+def consultar_anotacao(id):
+    conn = get_db_connection()
+    anotacao = conn.execute('SELECT * FROM lembretes WHERE id = ?', (id,)).fetchone()
+    conn.close()
+    if anotacao is None:
+        return jsonify({"error": "Anotação não encontrada"}), 404
+    return jsonify({
+        "id": anotacao["id"],
+        "titulo": anotacao["titulo"],
+        "data": anotacao["data"],
+        "descricao": anotacao["descricao"]
+    })
+
+
+
+if __name__ == '__main__':
+    app.run(debug=True)

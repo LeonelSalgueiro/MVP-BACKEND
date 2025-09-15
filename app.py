@@ -74,3 +74,14 @@ def editar_anotacao(id):
     conn.commit()
     conn.close()
     return jsonify({"id": id, "titulo": titulo, "data": data, "descricao": descricao})
+
+@app.route('/lembretes/<int:id>', methods=['DELETE'])
+def excluir_anotacao(id):
+    conn = get_db_connection()
+    cur = conn.execute('DELETE FROM lembretes WHERE id = ?', (id,))
+    conn.commit()
+    if cur.rowcount == 0:
+        conn.close()
+        return jsonify({"error": "Anotação não encontrada"}), 404
+    conn.close()
+    return jsonify({"result": "Anotação excluída"})

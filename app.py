@@ -46,3 +46,13 @@ def criar_anotacao():
     anotacao_id = cur.lastrowid
     conn.close()
     return jsonify({"id": anotacao_id, "titulo": titulo, "data": data, "descricao": descricao}), 201
+
+@app.route('/lembretes', methods=['GET'])
+def listar_lembretes():
+    conn = get_db_connection()
+    rows = conn.execute('SELECT * FROM lembretes').fetchall()
+    conn.close()
+    return jsonify([
+        {"id": r["id"], "titulo": r["titulo"], "data": r["data"], "descricao": r["descricao"]}
+        for r in rows
+    ])

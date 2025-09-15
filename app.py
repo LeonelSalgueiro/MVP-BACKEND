@@ -14,3 +14,18 @@ def get_db_connection():
     conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
+
+def init_db():
+    conn = get_db_connection()
+    conn.execute('''
+        CREATE TABLE IF NOT EXISTS lembretes (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            data DATE NOT NULL,
+            descricao TEXT
+        )
+    ''')
+    conn.commit()
+    conn.close()
+
+init_db()

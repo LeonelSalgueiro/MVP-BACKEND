@@ -29,3 +29,20 @@ def init_db():
     conn.close()
 
 init_db()
+
+@app.route('/lembretes', methods=['POST'])
+def criar_anotacao():
+    titulo = request.form.get('titulo')
+    data = request.form.get('data')
+    descricao = request.form.get('descricao')
+    if not titulo or not data:
+        return jsonify({"error": "Título e data são obrigatórios"}), 400
+    conn = get_db_connection()
+    cur = conn.execute(
+        'INSERT INTO lembretes (titulo, data, descricao) VALUES (?, ?, ?)',
+        (titulo, data, descricao)
+    )
+    conn.commit()
+    anotacao_id = cur.lastrowid
+    conn.close()
+    return jsonify({"id": anotacao_id, "titulo": titulo, "data": data, "descricao": descricao}), 201

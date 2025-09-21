@@ -1,6 +1,6 @@
 # MVP Backend - API de POST-IT
 
-Este projeto é uma API simples para gerenciar Post-it, construída com Python, Flask e SQLite.
+Este projeto é uma API simples para gerenciar lembretes (Post-it). O trabalho é um desenvolvimento para o primeiro semestre da pós-graduação em Engenharia de Software pela PUC-Rio. No trabalho foram utilizados Python, Flask e SQLite.
 
 ## Como instalar e rodar
 

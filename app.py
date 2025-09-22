@@ -21,7 +21,7 @@ def init_db():
         CREATE TABLE IF NOT EXISTS lembretes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             titulo TEXT NOT NULL,
-            data DATE NOT NULL,
+            data TEXT NOT NULL,
             descricao TEXT
         )
     ''')

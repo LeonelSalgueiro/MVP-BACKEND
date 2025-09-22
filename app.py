@@ -43,6 +43,7 @@ def criar_anotacao():
       - name: data
         in: formData
         type: string
+        format: date
         required: true
       - name: descricao
         in: formData
@@ -105,6 +106,7 @@ def editar_anotacao(id):
       - name: data
         in: formData
         type: string
+        format: date
         required: false
       - name: descricao
         in: formData
